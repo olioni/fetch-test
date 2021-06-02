@@ -14,7 +14,7 @@ export default {
   },
   data() {
     return {
-      people: {},
+      people: [],
       size: 0
     }
   },
@@ -27,7 +27,9 @@ export default {
   methods: {
     showMaleCharacters() {
       console.log(this.people.results)
-      
+      this.people.results.forEach(object => {
+        object.filter()
+      });
     }
   }
 }
