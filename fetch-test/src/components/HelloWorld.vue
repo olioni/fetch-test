@@ -1,11 +1,13 @@
 <template>
   <div>
-    <button @click="showMaleCharacters()">MALE</button>
-    <button @click="showFemaleCharacters()">FEMALE</button>
+    <h3 v-for="player in players" :key="player.id"> {{player.fullName}}</h3>
   </div>
 </template>
 
 <script>
+import firebase from "./firebase";
+import {db} from './firebase'
+
 export default {
   name: 'HelloWorld',
   props: {
@@ -14,15 +16,20 @@ export default {
   },
   data() {
     return {
-      people: [],
-      size: 0
+      players: []
     }
+  },
+  firestore: {
+    players: db.collection('players').get().then(querySnapshot => { querySnapshot.docs.map(doc => doc.data())})
   },
   created() {
   // Simple GET request using fetch
     fetch("https://swapi.dev/api/people/")
       .then(response => response.json())
       .then(data => this.people = data);
+  },
+  mounted() {
+    console.log(this.players)
   },
   methods: {
     showMaleCharacters() {
