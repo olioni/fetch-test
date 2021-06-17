@@ -1,31 +1,27 @@
 <template>
   <div>
-    <!-- <h3 v-for="player in playerObj" :key="player.id"> {{player.fullName}} TOTAL GOALS: {{ calcTotalGoals() }}</h3> -->
-    <playerObject v-for="player in players" :player="player" :key="player.id"/>
+    <h3> {{player.fullName}} TOTAL GOALS: </h3>
   </div>
 </template>
 
 <script>
 import firebase from "./firebase";
-import {db} from './firebase';
-import playerObject from '@/components/playerObject.vue'
-
+import {db} from './firebase'
+      
 export default {
-  name: 'HelloWorld',
-  components: {
-    playerObject
-  },
-  props: {
-
-  },
+  name: 'playerObject',
+  props: [
+    'player'
+  ],
   data() {
     return {
-      players: ""
+      playerObj: "",
+      playerMatches: "",
+      person: ""
     }
   },
   firestore: {
-    players: db.collection('players'),
-    
+    matches: db.collection('players')
   },
   created() {
   // Simple GET request using fetch
@@ -34,11 +30,16 @@ export default {
     //   .then(data => this.people = data);
   },
   mounted() {
+    // console.log(this.player.fullName)
+
+    this.$bind("playerMatches", db.collection('players').doc(this.player.fullName).collection('matches')).then(() => {
+      console.log(this.playerMatches.id)
+    })
 
   },
   methods: {
-    calcTotalGoals() {
-      console.log(this.matches)
+    calcTotalGoals(player) {
+      this.playerObj.doc(player).collection('matches')
       // return this.playerObj.matches.map(match => match.goals).reduce((prev, next) => prev + next);
     }
   }
