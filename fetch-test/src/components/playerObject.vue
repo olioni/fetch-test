@@ -1,12 +1,14 @@
 <template>
   <div>
-    <h3> {{player.fullName}} TOTAL GOALS: </h3>
+    <canvas id="myChart"></canvas>
+    <!-- <h3> {{player.fullName}} TOTAL GOALS: {{ this.goalTotal}} </h3> -->
   </div>
 </template>
 
 <script>
 import firebase from "./firebase";
 import {db} from './firebase'
+import Chart from 'chart.js/auto';
       
 export default {
   name: 'playerObject',
@@ -17,7 +19,8 @@ export default {
     return {
       playerObj: "",
       playerMatches: "",
-      person: ""
+      person: "",
+      goalTotal: "",
     }
   },
   firestore: {
@@ -32,15 +35,18 @@ export default {
   mounted() {
     // console.log(this.player.fullName)
 
-    this.$bind("playerMatches", db.collection('players').doc(this.player.fullName).collection('matches')).then(() => {
-      console.log(this.playerMatches.id)
-    })
-
+    // this.$bind("playerMatches", db.collection('players').doc(this.player.fullName).collection('matches')).then(() => {
+      // console.log('player name:', this.player.fullName, 'goals scored:', this.playerMatches[0].goals + this.playerMatches[1].goals)
+      // this.goalTotal = this.playerMatches[0].goals + this.playerMatches[1].goals
+    // })
+    this.myChart = new Chart(document.getElementById('myChart'), this.config)
   },
   methods: {
     calcTotalGoals(player) {
       this.playerObj.doc(player).collection('matches')
       // return this.playerObj.matches.map(match => match.goals).reduce((prev, next) => prev + next);
+    },
+    loadChart() {
     }
   }
 }

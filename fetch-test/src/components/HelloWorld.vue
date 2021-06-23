@@ -1,7 +1,9 @@
 <template>
   <div>
     <!-- <h3 v-for="player in playerObj" :key="player.id"> {{player.fullName}} TOTAL GOALS: {{ calcTotalGoals() }}</h3> -->
-    <playerObject v-for="player in players" :player="player" :key="player.id"/>
+    <!-- <playerObject v-for="player in players" :player="player" :key="player.id"/> -->
+    <playerObject/>
+    <dataChart/>
   </div>
 </template>
 
@@ -9,11 +11,13 @@
 import firebase from "./firebase";
 import {db} from './firebase';
 import playerObject from '@/components/playerObject.vue'
+import dataChart from '@/components/dataChart.vue'
 
 export default {
   name: 'HelloWorld',
   components: {
-    playerObject
+    playerObject,
+    dataChart
   },
   props: {
 
