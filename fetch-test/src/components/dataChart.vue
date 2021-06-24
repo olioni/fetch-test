@@ -1,21 +1,15 @@
-<template>
-  <div>
-    <canvas id="myChart"></canvas>
-    <!-- <h3> {{player.fullName}} TOTAL GOALS: {{ this.goalTotal}} </h3> -->
-  </div>
-</template>
-
 <script>
 import firebase from "./firebase";
-import {db} from './firebase'
-import Chart from 'chart.js';
+import {db} from './firebase';
+// import Chart from "chart.js";
+import { Bar } from 'vue-chartjs'
       
 export default {
+  extends: Bar,
   name: 'dataChart',
   props: [],
   data() {
     return {
-      chart: null,
       chartLabels: [
         'January',
         'February',
@@ -38,17 +32,29 @@ export default {
         data: this.chartData,
         options: {}
       },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
+      },
+      chart: null,
+      // chartId: null
     }
   },
   firestore: {
     matches: db.collection('players')
   },
+  extends: Bar,
   mounted() {
-    this.loadChart()
+    this.renderChart(this.chartData, this.options)
+    // this.loadChart()
   },
   methods: {
     loadChart() {
-      this.chart = new Chart(document.getElementById('myChart'), this.config)
+      // this.chartId = document.getElementById('mychart')
+      this.chart = new Chart(this.chartId, this.config)
     }
   }
 }
