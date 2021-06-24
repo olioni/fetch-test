@@ -2,15 +2,17 @@
   <div>
     <button @click="showMaleCharacters()">MALE</button>
     <button @click="showFemaleCharacters()">FEMALE</button>
+    <test-chart/>
   </div>
 </template>
 
 <script>
+import TestChart from './TestChart.vue';
 export default {
+  components: { TestChart },
   name: 'HelloWorld',
   props: {
     msg: String,
-
   },
   data() {
     return {
@@ -30,6 +32,9 @@ export default {
       this.people.results.forEach(object => {
         object.filter()
       });
+    },
+    showFemaleCharacters() {
+      alert("I dont do anything yet")
     }
   }
 }
