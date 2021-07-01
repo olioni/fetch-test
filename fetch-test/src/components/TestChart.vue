@@ -1,6 +1,8 @@
 <template>
   <div>
+    <p v-for="player in playerMatches" :key="player.id"> {{player}} </p>
     <canvas id="test-chart"></canvas>
+    
   </div>
 </template>
 
@@ -22,25 +24,30 @@
     firestore: {
       players: db.collection('players')
     },
+    watch: {
+    players: {
+        handler: "test"
+      }
+    },
     mounted() {
       console.log(this.players)
       const ctx = document.getElementById('test-chart');
       new Chart(ctx, this.chartData);
-
-      for (var i = 0; i < this.players.length; i++) {
-
-        console.log(this.players[i].fullName)
-        
-        db.collection('players').doc(this.players[i].fullName).collection('matches').get().then((querySnapshot) => {
-          querySnapshot.forEach((doc) => {
-            console.log(doc)
-            this.playerMatches[this.players[i].fullName].matches[doc.id] = doc.data()
+    },
+    methods: {
+      test() {
+        console.log("test function")
+        this.players.forEach(player => {
+          console.log("getting matches data for " , player.fullName)
+          db.collection('players').doc(player.fullName).collection('matches').get().then((querySnapshot) => {
+            querySnapshot.forEach((doc) => {
+              console.log("doc",doc.data())
+              this.playerMatches[player.fullName].matches[doc.id] = doc.data()
+            });
           });
-        });
-
+        })
+        console.log("this.playMatches data", this.playerMatches)
       }
-
-      console.log(this.playerMatches)
     }
   }
 </script>
