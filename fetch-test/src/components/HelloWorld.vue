@@ -8,6 +8,9 @@
 
 <script>
 import TestChart from './TestChart.vue';
+import {db} from './firebase'
+import firebase from './firebase'
+
 export default {
   components: { TestChart },
   name: 'HelloWorld',
@@ -16,26 +19,33 @@ export default {
   },
   data() {
     return {
+      players: "",
+      playerMatches: "",
       people: [],
       size: 0
     }
   },
+  // firestore: {
+  //   players: db.collection('players')
+  // },
   created() {
-  // Simple GET request using fetch
-    fetch("https://swapi.dev/api/people/")
-      .then(response => response.json())
-      .then(data => this.people = data);
+
   },
   methods: {
     showMaleCharacters() {
-      console.log(this.people.results)
-      this.people.results.forEach(object => {
-        object.filter()
-      });
     },
     showFemaleCharacters() {
       alert("I dont do anything yet")
     }
+  },
+  mounted() {
+    // console.log(this.playerMatches)
+    // console.log(this.players)
+
+    // this.$bind("playerMatches", db.collection('players').doc(this.player.fullName).collection('matches')).then(() => {
+    //   // console.log('player name:', this.player.fullName, 'goals scored:', this.playerMatches[0].goals + this.playerMatches[1].goals)
+    //   this.goalTotal = this.playerMatches[0].goals + this.playerMatches[1].goals
+    // })
   }
 }
 </script>
